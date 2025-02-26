@@ -1,24 +1,20 @@
 {%extends 'base.html'%}
 
 {%block content%}
+{% if search_results %}
+    <ul>
+        {% for result in search_results %}
+            <li>
+                <strong>{{ result['title'] }}</strong><br>
+                Artista: {{ result['artist']['name'] }}<br>
+                Álbum: {{ result['album']['title'] }}<br>
+                <img src="{{ result['album']['cover_medium'] }}" alt="Capa do Álbum"><br>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Nenhum resultado encontrado. Tente novamente.</p>
+{% endif %}
 
-<div class="container" style="background-color: #f0f0f0; border-radius: 8px;">
-    <div class="row">
-        {%for game in gamesjson %}
-        <div class="col-md-3 m-auto">
-            <div class="card" style="width: 16rem;">
-                <img src="{{game.thumbnail}}" alt="{{game.title}}">
-                <div class="card-body">
-                    <h5>{{game.title}}</h5>
-                    <p>{{game.genre}}</p>
-                    <p>{{game.platform}}</p>
-                    <a href="{{game.game_url}}" class="btn btn-primary">Jogar</a>
-                    <a href="{{url_for('apigames', id=game.id)}}" class="btn btn-dark">+ Info</a>
-                </div>
-            </div>
-        </div>
-        {%endfor%}
-    </div>
-</div>
 
 {%endblock content%}

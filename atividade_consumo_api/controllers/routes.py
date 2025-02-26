@@ -40,26 +40,17 @@ def init_app(app):
                                gamelist=gamelist)
     
     @app.route('/apigames', methods=['GET','POST'])
-    # Passando parâmetros para rota
-    #id numero inteiro, informamos o tipo como <int:id>, se fosse string não porecisaria do tipo
-    @app.route('/apigames/id', methods=['GET', 'POST'])
-    #Definindo que o parâmetro é opcional
-    def apigames(id=None):
-        url = 'https://api.deezer.com/search?q='
-        res = urllib.request.urlopen(url)
-        # print(res)
-        data = res.read()
-        gamesjson = json.loads(data)
+    def apigames():
+        if request.method == 'POST':
+            search_query = request.form.get('search_query')  # Pega o termo de pesquisa
+            url = f'https://api.deezer.com/search?q={urllib.parse.quote(search_query)}'
+            res = urllib.request.urlopen(url)
+            data = res.read()
+            search_results = json.loads(data)  # Carrega a resposta em formato JSON
+            
+            # Aqui você pode passar para o template os resultados da pesquisa
+            return render_template('apigames.html', search_results=search_results['data'])
         
-        if id:
-            ginfo = []
-            for g in gamesjson:
-                if g['id'] == id:
-                    ginfo = g
-                    break
-            if ginfo:
-                return render_template('gameinfo.html', ginfo=ginfo)
-            else:
-                return f'Gmae com a ID {id} não encontrado.'
-        return render_template('apigames.html', 
-                               gamesjson=gamesjson)
+        return render_template('apigames.html', search_results=None)
+
+        
