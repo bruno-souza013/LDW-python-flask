@@ -1,26 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <form class="form-label d-flex" action="{{url_for('apimusic')}}" method="POST">
+      <input class="form-control mr-sm-2" type="text" name="search" placeholder="Buscar música" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+    </form>
+
     {% if search_results %}
-        <ul>
+    <div class="container p-3" style="background-color: #383838; border-radius: 5px;">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for result in search_results %}
-                <li>
+            <div class="col">
+                <div class="card" style="width: 100%; padding: 10px;">
                     <strong>{{ result['title'] }}</strong><br>
                     Artista: {{ result['artist']['name'] }}<br>
                     Álbum: {{ result['album']['title'] }}<br><br>
-                    <img src="{{ result['album']['cover_medium'] }}" alt="Capa do Álbum"><br>
+                    <img src="{{ result['album']['cover_medium'] }}" alt="Capa do Álbum" class="img-fluid"><br><br>
 
                     {% if result['preview'] %} 
-                        <audio controls>
+                        <audio controls class="custom-audio">
                             <source src="{{ result['preview'] }}" type="audio/mpeg">
                             Seu navegador não suporta o elemento de áudio.
                         </audio>
                     {% else %}
                         <p>Prévia não disponível.</p>
                     {% endif %}
-                </li>
+                </div>
+            </div>
             {% endfor %}
-        </ul>
+        </div>
+    </div>
     {% else %}
         <p>Nenhum resultado encontrado. Tente novamente.</p>
     {% endif %}

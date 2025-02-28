@@ -54,23 +54,15 @@ def init_app(app):
         
         else:  
             try:
-                # 1️⃣ Lista de IDs dos gêneros desejados
                 genre_ids = [472, 116, 152, 85, 144]
-
-                # 2️⃣ Escolhe um gênero aleatório
                 random_genre_id = random.choice(genre_ids)
-
-                # 3️⃣ Busca artistas desse gênero
                 artist_url = f'https://api.deezer.com/genre/{random_genre_id}/artists'
                 res = urllib.request.urlopen(artist_url)
                 data = res.read()
                 artists = json.loads(data)['data']
-
-                if artists:
-                    # 4️⃣ Escolhe até 5 artistas aleatórios para criar um mix
+                if artists:    
                     random_artists = random.sample(artists, min(5, len(artists)))
 
-                    # 5️⃣ Puxa músicas populares de cada artista e cria um mix
                     for artist in random_artists:
                         artist_id = artist['id']
                         music_url = f'https://api.deezer.com/artist/{artist_id}/top?limit=5'
@@ -78,15 +70,12 @@ def init_app(app):
                         data = res.read()
                         artist_tracks = json.loads(data)['data']
 
-                        # Adiciona as músicas ao mix
                         search_results.extend(artist_tracks)
-
-                    # 6️⃣ Embaralha as músicas para criar um verdadeiro mix
                     random.shuffle(search_results)
 
             except Exception as e:
                 print("Erro ao buscar músicas:", e)
-                search_results = []  # Se der erro, mantém vazio
+                search_results = [] 
             
         return render_template('apimusic.html', search_results=search_results)
         

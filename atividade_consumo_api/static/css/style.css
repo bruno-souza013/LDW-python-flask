@@ -1,0 +1,17 @@
+.custom-audio {
+    width: 100%;
+    background-color: black;
+    border-radius: 5px;
+}
+
+.custom-audio::-webkit-media-controls-panel {
+    background-color: black;
+    color: greenyellow;
+}
+
+.custom-audio::-webkit-media-controls-play-button,
+.custom-audio::-webkit-media-controls-volume-slider,
+.custom-audio::-webkit-media-controls-current-time-display,
+.custom-audio::-webkit-media-controls-time-remaining-display {
+    filter: invert(62%) sepia(43%) saturate(500%) hue-rotate(90deg);
+}
