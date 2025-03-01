@@ -14,15 +14,35 @@ gamelist = [{'titulo': 'CS-GO',
 
 
 def init_app(app):
-    @app.route('/')
-    # view function - função de visualização
+    @app.route('/', methods=['GET', 'POST'])
     def home():
-        return render_template('index.html')
+        # atista específico 
+        artist_url = "https://api.deezer.com/track/2761897271" 
+        res = urllib.request.urlopen(artist_url)
+        data = res.read()
+        result = json.loads(data)
+    
+        #artistas aleatórios para o carrossel
+        try:
+            genre_ids = [116, 152, 85, 144]  
+            random_genre_id = random.choice(genre_ids)  
+            artist_url = f'https://api.deezer.com/genre/{random_genre_id}/artists'
+            res = urllib.request.urlopen(artist_url)
+            data = res.read()
+            artists = json.loads(data)['data']
+            
+            if artists:
+                random_artists = random.sample(artists, min(18, len(artists)))  
+            else:
+                random_artists = []
+        except Exception as e:
+            print("Erro ao buscar artistas:", e)
+            random_artists = []  
+        return render_template('index.html', result=result, artists=random_artists)
 
     @app.route('/community', methods=['GET', 'POST'])
     def community():
         game = gamelist[0]
-
         if request.method == 'POST':
             if request.form.get('jogador'):
                 jogadores.append(request.form.get('jogador'))
@@ -61,7 +81,7 @@ def init_app(app):
                 data = res.read()
                 artists = json.loads(data)['data']
                 if artists:    
-                    random_artists = random.sample(artists, min(5, len(artists)))
+                    random_artists = random.sample(artists, min(6, len(artists)))
 
                     for artist in random_artists:
                         artist_id = artist['id']
