@@ -26,7 +26,8 @@
         background-color: #121212;
         color: white;
         padding: 20px;
-        padding-top: 80px; 
+        padding-top: 80px;
+        z-index: 10;
     }
     .sidebar img {
         width: 100px;
@@ -56,4 +57,13 @@
         position: fixed;
         width: 100%;
         z-index: 1000;
+    }
+    footer {
+        background-color: #212529;
+        color: white;
+        padding: 40px 0;
+        text-align: center;
+        width: 100%;
+        z-index: 1000;
+        position: relative
     }

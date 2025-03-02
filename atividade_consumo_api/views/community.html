@@ -1,23 +1,41 @@
-
 {% extends 'base.html' %}
-{%block content%}
-    <h1>Bem-vindo a página de Games!</h1>
-    <hr />
-    {# Comentário em jinja2 #} {% for k, v in game.items() %} {{k}} : {{v}}<br />
-    {% endfor %}
-    <p>O jogo {{game['titulo']}} está sendo jogado por:</p>
-    <ol>
-      {% for j in jogadores: %}
-      <li>{{j}}</li>
-      {%endfor%}
-    </ol>
-    <hr>
-    <h4>Entrar no jogo: </h4>
-    <form action="{{url_for('games')}}" method="POST">
-        <label>Jogador: </label>
-        <input type="text" name="jogador">
-        <input type="submit" value="Entrar">
-    </form>
-    <hr>
-{%endblock content%}
 
+{% block content %}
+
+<div class="container d-flex flex-column align-items-center mt-4">
+    <h1 class="mb-3 text-white">Chat Global</h1>
+
+    <div id="chat-box" class="border rounded p-3 bg-dark shadow-lg"
+        style="width: 100%; max-width: 800px; height: 500px; overflow-y: auto; color: white;">
+        <ul class="list-unstyled mb-0">
+            {% if messages %}
+            {% for m in messages %}
+            <li class="p-3 mb-2 bg-dark text-light border rounded">
+                <div class="d-flex justify-content-between">
+                    <span class="font-weight-bold">Anônimo diz:</span>
+                </div>
+                <div>{{m}}</div>
+            </li>
+            {% endfor %}
+            {% else %}
+            <li class="p-3 mb-2 bg-dark text-light border rounded">
+                <div class="text-center">Nenhuma mensagem ainda. Seja o primeiro a dizer algo!</div>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    <form action="{{ url_for('community') }}" method="POST" class="mt-3 w-100" style="max-width: 800px;">
+        <div class="input-group">
+            <input type="text" name="message" class="form-control" placeholder="Digite sua mensagem..." required>
+            <button type="submit" class="btn btn-success">Enviar</button>
+        </div>
+    </form>
+</div>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<hr>
+
+{% endblock content %}
