@@ -15,21 +15,17 @@
 .custom-audio::-webkit-media-controls-time-remaining-display {
     filter: invert(62%) sepia(43%) saturate(500%) hue-rotate(90deg);
 }
-
-       /* Sidebar */
-       .sidebar {
-        width: 250px;
-        height: 100vh;
-        position: fixed;
+    .sidebar {
+        width: 250px; 
+        height: 100vh; 
+        position: fixed; 
         top: 0;
         left: 0;
-        background-color: #121212;
+        background-color: #212529; 
+        padding-top: 20px;
         color: white;
-        padding: 20px;
-        padding-top: 80px;
-        z-index: 10;
     }
-    .sidebar img {
+    .sidebar img {  
         width: 100px;
         margin-bottom: 20px;
     }
@@ -54,9 +50,7 @@
         padding: 20px;
     }
     .navbar {
-        position: fixed;
         width: 100%;
-        z-index: 1000;
     }
     footer {
         background-color: #212529;
@@ -64,6 +58,14 @@
         padding: 40px 0;
         text-align: center;
         width: 100%;
-        z-index: 1000;
+        z-index: -1;
         position: relative
+    }
+    .content-container {
+        flex-grow: 1;
+        padding: 20px;
+        color: white;
+        background-color: black;
+        margin-left: 250px; 
+        margin-top: 80px; 
     }

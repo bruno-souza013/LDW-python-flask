@@ -16,7 +16,7 @@
 <body style="background-color: black;">
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
                 <img src="{{ url_for('static', filename='images/faflow.png') }}" style="width: 45px; height: 45px;">
@@ -36,7 +36,7 @@
     </nav>
 
     <!-- Sidebar -->
-    <nav class="sidebar">
+    <nav class="sidebar" style="margin-top: 50px;">
         <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
         <a href="{{ url_for('community') }}"><i class="fas fa-users"></i> Comunidade</a>
         <a href="{{ url_for('cadmusic') }}"><i class="fas fa-music"></i> Cadastrar Música</a>
@@ -44,18 +44,14 @@
         <hr>
         <li>Ouça as mais tocadas</li>
         <li>Top 10 da FATEC</li>
-        <li>Mix Nirvana</li>
-        <li>Guns N' Roses</li>
         <li>Mix Black Sabbath</li>
         <li>Mix Iron Maiden</li>
-        <li>Mix Sublime</li>
         <li>Mix Kendrick Lamar</li>
         <li>Mix J Cole</li>
         <li>Mix 50 Cent</li>
         <li>Mix Snoop Dogg</li>
-        <li>Mix Eminem</li>
     </nav>
-    <div class="container">
+    <div class="content-container">
         {% block content %}
         <!-- Aqui vai o conteúdo das páginas -->
         {% endblock content %}
