@@ -77,6 +77,7 @@ def init_app(app):
             #Delete no game
             db.session.delete(game)
             db.session.commit()
+            return redirect(url_for('estoque'))
             
         if request.method == 'POST':
             newgame = Game(request.form['titulo'],request.form['ano'],request.form['categoria'],request.form['plataforma'],request.form['preco'],request.form['quantidade'])

@@ -20,7 +20,6 @@
 <hr>
 <h5>Jogos em Estoque: </h5>
 <hr>
-
 <table class="table table-bordered table-hover">
     <thead class="table-dark">
         <tr>
@@ -43,7 +42,7 @@
         <td>{{game.preco}}</td>
         <td>{{game.quantidade}}</td>
         <td>Editar</td>
-        <td><a style="color: red; text-decoration: none;" href="{{url_for('estoque')}}">Excluir</a></td>
+        <td><a style="color: red; text-decoration: none;" href="{{url_for('estoque', id=game.id)}}" onclick="return confirm('Deseja mesmo excluir {{game.titulo}} ?')">Excluir</a></td>
         </tr>
         {%endfor%}
         
