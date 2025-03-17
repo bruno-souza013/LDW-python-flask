@@ -69,7 +69,15 @@ def init_app(app):
     
     #Rota com CRUD de Jogos
     @app.route('/estoque', methods=['GET', 'POST'])
-    def estoque():
+    @app.route('/estoque/delete/<int:id>')
+    def estoque(id=None):
+        if id:
+            #Get para pegar o jogo no banco para ser excluido
+            game = Game.query.get(id)
+            #Delete no game
+            db.session.delete(game)
+            db.session.commit()
+            
         if request.method == 'POST':
             newgame = Game(request.form['titulo'],request.form['ano'],request.form['categoria'],request.form['plataforma'],request.form['preco'],request.form['quantidade'])
             #Envia os valores para o banco

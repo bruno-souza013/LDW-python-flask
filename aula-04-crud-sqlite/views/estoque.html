@@ -30,6 +30,7 @@
         <th>Plataforma: </th>
         <th>Preço: </th>
         <th>Quantidade: </th>
+        <th style="text-align: center;" colspan="2">Açoes: </th>
         </tr>
     </thead>
     <tbody>
@@ -41,6 +42,8 @@
         <td>{{game.plataforma}}</td>
         <td>{{game.preco}}</td>
         <td>{{game.quantidade}}</td>
+        <td>Editar</td>
+        <td><a style="color: red; text-decoration: none;" href="{{url_for('estoque')}}">Excluir</a></td>
         </tr>
         {%endfor%}
         
