@@ -84,7 +84,35 @@ def init_app(app):
             #Envia os valores para o banco
             db.session.add(newgame)
             db.session.commit()
-            return redirect(url_for('estoque'))        
-        #Método que faz select geral no banco na tabela Games
-        gamesestoque = Game.query.all()
-        return render_template('estoque.html', gamesestoque=gamesestoque)
+            return redirect(url_for('estoque')) 
+        else:
+            #Paginação
+            #A variável abaaixo captura o valor de 'page' que foi passado pelo método GET.
+            #E define como padrão o valor 1 e o tipo inteiro
+            page = request.args.get('page', 1, type=int)
+            #Valor padrão de registros por página (definimos 5)
+            per_page = 5
+            #abaixo está sendo feito um select no banco a partir da página informada (page) e filtrando
+            #os registros de 5 em 5 
+            games_page = Game.query.paginate(page=page, per_page=per_page) 
+            return render_template('estoque.html', gamesestoque=games_page)             
+            #Método que faz select geral no banco na tabela Games
+            # gamesestoque = Game.query.all()
+            # return render_template('estoque.html', gamesestoque=gamesestoque)
+
+    #Rota Edição
+    @app.route('/edit/<int:id>', methods=['GET', 'POST'])
+    def edit(id):
+        #Buscando informações do jogo:
+        game = Game.query.get(id)
+        #EDITA JOOG DE ACORDO COM FORMULARIO
+        if request.method == 'POST':
+            game.titulo = request.form['titulo']
+            game.ano = request.form['ano']
+            game.categoria = request.form['categoria']
+            game.plataforma = request.form['plataforma']
+            game.preco = request.form['preco']
+            game.quantidade = request.form['quantidade']
+            db.session.commit()
+            return redirect(url_for('estoque'))
+        return render_template('editgame.html', game=game)
