@@ -5,7 +5,8 @@ import urllib
 #Converte dados para o formato JSON
 import json
 import random
-
+#importa model do banco
+from models.database import db, Music
 
 messages = []
 musiclist = []
@@ -69,17 +70,43 @@ def init_app(app):
         return render_template('community.html',messages=messages)
 
 
-
+    #CRUD com Sqlite
     @app.route('/cadmusic', methods=['GET', 'POST'])
-    def cadmusic():
+    @app.route('/cadmusic/delete/<int:id>')
+    def cadmusic(id=None):
+        if id:
+            music = Music.query.get(id)
+            #Delete da musica
+            db.session.delete(music)
+            db.session.commit()
+            return redirect(url_for('cadmusic'))
+        
         if request.method =='POST':
-            form_data = request.form.to_dict()
-            musiclist.append(form_data)
-            return(redirect(url_for('cadmusic')))
-        return render_template('cadmusic.html', musiclist=musiclist)
+            newmusic = Music(request.form['title'], request.form['artist'], request.form['category'], request.form['year'], request.form['album'])
+            db.session.add(newmusic)
+            db.session.commit()
+            return redirect(url_for('cadmusic'))
+        else:
+            #Paginação
+            page = request.args.get('page', 1, type=int)
+            per_page = 5
+            music_page = Music.query.paginate(page=page, per_page=per_page)
+            return render_template('cadmusic.html', cad_music=music_page)  
     
-
-    
+    #Rota Edição
+    @app.route('/editmusic/<int:id>', methods=['GET', 'POST'])
+    def editmusic(id):
+        music = Music.query.get(id)
+        if request.method == 'POST':
+            music.title = request.form['title']
+            music.artist = request.form['artist']
+            music.category = request.form['category']
+            music.year = request.form['year']
+            music.album = request.form['album']
+            db.session.commit()
+            return redirect(url_for('cadmusic'))
+        return render_template('editmusic.html', music=music)
+   
     @app.route('/apimusic', methods=['GET', 'POST'])
     def apimusic():
         search_results = []  
